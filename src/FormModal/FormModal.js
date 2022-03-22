@@ -5,8 +5,12 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import { useFormik, yupToFormErrors } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { addPost } from "../actions";
 
-const FormModal = ({ card, setCard }) => {
+const FormModal = () => {
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -33,15 +37,14 @@ const FormModal = ({ card, setCard }) => {
       text: "",
     },
     onSubmit: (values, { resetForm }) => {
-      setCard([
-        ...card,
-        {
+      dispatch(
+        addPost({
           id: Math.random(),
           title: values.title,
           auther: values.auther,
           text: values.text,
-        },
-      ]);
+        })
+      );
       resetForm();
       setOpen(false);
     },
@@ -76,8 +79,8 @@ const FormModal = ({ card, setCard }) => {
             onChange={formik.handleChange}
           />
           <TextField
-            // error
-            // helperText="Incorrect entry."
+          error={!!formik.errors.auther}
+          helperText={formik.errors.auther}
             id="auther"
             name="auther"
             label="Auther"
@@ -89,8 +92,8 @@ const FormModal = ({ card, setCard }) => {
             onChange={formik.handleChange}
           />
           <TextField
-            // error
-            // helperText="Incorrect entry."
+          error={!!formik.errors.text}
+          helperText={formik.errors.text}
             id="text"
             name="text"
             label="Text"

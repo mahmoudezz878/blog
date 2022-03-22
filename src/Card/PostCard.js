@@ -8,10 +8,13 @@ import { red } from "@mui/material/colors";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { deletePost } from "../actions";
 
-const PostCard = ({ cards, handelDelete }) => {
+const PostCard = ({ cards }) => {
+  const dispatch = useDispatch();
   return (
-    <Grid item xs={2} sm={4} md={4}>
+    <Grid style={{margin: '20px'}} item xs={12} sm={4} md={4} xg={4}>
       <Card sx={{ maxWidth: 345 }}>
         <CardHeader
           avatar={
@@ -28,7 +31,7 @@ const PostCard = ({ cards, handelDelete }) => {
           </Typography>
         </CardContent>
         <Button
-          onClick={() => handelDelete(cards.id)}
+          onClick={() => dispatch(deletePost(cards.id))}
           variant="contained"
           style={{ margin: "10px" }}
         >

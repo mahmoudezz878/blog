@@ -13,11 +13,13 @@ const PostDetails = () => {
     setPost(post);
   }, []);
 
-  return <div>
-  <div>autherv: {post.auther}</div>
-  <div>title: {post.title}</div>
-  <div>text: {post.text}</div>
-  </div>;
+  return (
+    <div>
+      <div>autherv: {post.auther}</div>
+      <div>title: {post.title}</div>
+      <div>text: {post.text}</div>
+    </div>
+  );
 };
 
 export default PostDetails;

@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import FormModal from "../FormModal/FormModal";
 
-const Navbar = ({ card, setCard }) => {
+const Navbar = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -15,7 +15,7 @@ const Navbar = ({ card, setCard }) => {
             Blog
           </Typography>
           <Button variant="contained" color="warning">
-            <FormModal card={card} setCard={setCard} />
+            <FormModal />
           </Button>
         </Toolbar>
       </AppBar>

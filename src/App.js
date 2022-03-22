@@ -1,48 +1,36 @@
 import { useState, useEffect, useContext } from "react";
-import PostCard from "./Card/PostCard";
 import Navbar from "./NavBar/Navbar";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import PostDetails from "./Pages/PostDetails";
-import { CardContext, PostContext } from "./PostContext";
+import { useSelector, useDispatch } from "react-redux";
+import { initializePosts } from "./actions";
 
 function App() {
-  const [card, setCard] = useState(() => {
-    const saved = localStorage.getItem("blogList");
-    const initialValue = JSON.parse(saved);
+  const blogs = useSelector((state) => state);
 
-    return initialValue || [];
-  });
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    localStorage.setItem("blogList", JSON.stringify(card));
-  }, [card]);
+    if (!blogs || blogs.length === 0) {
+      const saved = localStorage.getItem("blogList");
+      const initialValue = JSON.parse(saved);
+      dispatch(initializePosts(initialValue || []));
+    }
+  }, []);
 
-  const handelDelete = (id) => {
-    console.log({ id });
-    const newPost = card.filter((_card) => {
-      return +_card.id !== +id;
-    });
-
-    setCard(newPost);
-  };
-  // const {post, setPost} = useContext(CardContext);
+  useEffect(() => {
+    localStorage.setItem("blogList", JSON.stringify(blogs));
+  }, [blogs]);
 
   return (
     <BrowserRouter>
-      <PostContext>
-        <Navbar card={card} setCard={setCard} />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Home card={card} setCard={setCard} handelDelete={handelDelete} />
-            }
-          />
-          <Route path="/postdetails/:id" element={<PostDetails />} />
-        </Routes>
-      </PostContext>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/postdetails/:id" element={<PostDetails />} />
+      </Routes>
     </BrowserRouter>
   );
 }
